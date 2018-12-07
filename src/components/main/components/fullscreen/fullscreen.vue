@@ -50,7 +50,7 @@ export default {
     }
   },
   mounted () {
-    let isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
+    let isFullscreen = document.fullScreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
     isFullscreen = !!isFullscreen
     document.addEventListener('fullscreenchange', () => {
       this.$emit('input', !this.value)

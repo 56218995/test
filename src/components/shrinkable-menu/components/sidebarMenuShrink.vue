@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { Component, Vue,Inject,Prop,Emit } from 'vue-property-decorator';
-import AbpBase from '../../../lib/abpbase'
+import AbpBase from '@/lib/abpbase'
 @Component
 export default class extends AbpBase {
     name:string='sidebarMenuShrink';

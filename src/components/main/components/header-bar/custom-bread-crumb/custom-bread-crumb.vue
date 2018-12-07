@@ -3,13 +3,12 @@
     <Breadcrumb :style="{fontSize: `${fontSize}px`}">
       <BreadcrumbItem v-for="item in list" :to="item.to" :key="`bread-crumb-${item.name}`">
         <common-icon style="margin-right: 4px;" :type="item.icon || ''"/>
-        {{ showTitle(item) }}
+        {{ itemTitle(item) }}
       </BreadcrumbItem>
     </Breadcrumb>
   </div>
 </template>
 <script>
-import { showTitle } from '@/libs/util'
 import CommonIcon from '_c/common-icon'
 import './custom-bread-crumb.less'
 export default {
@@ -32,8 +31,8 @@ export default {
     }
   },
   methods: {
-    showTitle (item) {
-      return showTitle(item, this)
+    itemTitle (item) {
+      return itemTitle(item)
     },
     isCustomIcon (iconName) {
       return iconName.indexOf('_') === 0

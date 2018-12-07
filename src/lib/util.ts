@@ -1,8 +1,12 @@
 import Vue from 'vue';
 import {FieldType,CompareType,Filter} from '../store/entities/filter'
 import appconst from './appconst'
+import config from '@/config'
+const { title, cookieExpires, useI18n } = config
+  
 class Util{
     abp:any=window.abp;
+    
     loadScript(url:string){
         var script=document.createElement('script');
         script.type="text/javascript";
@@ -363,7 +367,18 @@ class Util{
             }
         }
         return target;
-    }
+    }    
 }
+export const findNodeUpperByClasses = (ele, classes) => {
+    let parentNode = ele.parentNode
+    if (parentNode) {
+      let classList = parentNode.classList
+      if (classList && classes.every(className => classList.contains(className))) {
+        return parentNode
+      } else {
+        return findNodeUpperByClasses(parentNode, classes)
+      }
+    }
+  }
 const util=new Util();
 export default util;

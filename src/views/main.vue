@@ -2,22 +2,30 @@
     @import "./main.less";
 </style>
 <template>
-    <Layout style="height: 100%" class="main">       
+    <Layout style="height: 100%" class="main"> 
       <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
-         <shrinkable-menu 
+         <!-- <shrinkable-menu 
                 :shrink="shrink"
                 @on-change="handleSubmenuChange"
                 :theme="menuTheme" 
                 :before-push="beforePush"
                 :open-names="openedSubmenuArr"
                 :menu-list="menuList">
-            <div class="logo-con">
+            <div slot="top" class="logo-con">
               <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
               <img v-show="collapsed" :src="minLogo" key="min-logo" />
             </div>
-          </shrinkable-menu>         
+          </shrinkable-menu>     -->
+      <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
+        <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
+        <div class="logo-con">
+          <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
+          <img v-show="collapsed" :src="minLogo" key="min-logo" />
+        </div>
+      </side-menu>     
       </Sider>
-        <div class="main-header-con" :style="{paddingLeft: shrink?'80px':'256px'}">
+       <!-- <Layout>         
+        <div class="main-header-con">
             <div class="main-header">       
                 <sider-trigger :collapsed="collapsed" icon="md-menu" @on-change="handleCollpasedChange"></sider-trigger>
                 <div class="header-middle-con">
@@ -59,29 +67,29 @@
             </div>
             <copyfooter :copyright="L('CopyRight')"></copyfooter>
         </div>
+       </Layout> -->
     </Layout>
 </template>
 <script lang="ts">
     import { Component, Vue,Inject, Prop,Watch } from 'vue-property-decorator';
-    import shrinkableMenu from '../components/shrinkable-menu/shrinkable-menu.vue';
+    // import shrinkableMenu from '../components/shrinkable-menu/shrinkable-menu.vue';
+    import SideMenu from '@/components/main/components/side-menu/side-menu.vue'
     import tagsPageOpened from '../components/tags-page-opened.vue';
     import breadcrumbNav from '../components/breadcrumb-nav.vue';
-    import fullScreen from '../components/fullscreen.vue';
+    import fullScreen from '../components/main/components/fullscreen/fullscreen.vue';
     import lockScreen from '../components/lockscreen/lockscreen.vue';
     import notice from '../components/notices/notice.vue';
     import util from '../lib/util';
     import copyfooter from '../components/Footer.vue'
     import LanguageList from '../components/language-list.vue'
     import AbpBase from '../lib/abpbase'
-    import siderTrigger from '../components/main/components/header-bar/sider-trigger'
-    import minLogo1 from '../assets/images/about.vue'
-    import minLogo from '../assets/images/logo-min.jpg'
-    import maxLogo from '../assets/images/logo.jpg'
-    
+    import siderTrigger from '@/components/main/components/header-bar/sider-trigger'
     @Component({
-      components:{siderTrigger,shrinkableMenu,tagsPageOpened,breadcrumbNav,fullScreen,lockScreen,notice,copyfooter,LanguageList}
+      components:{siderTrigger,SideMenu,tagsPageOpened,breadcrumbNav,fullScreen,lockScreen,notice,copyfooter,LanguageList}
     })
-    export default class Main extends AbpBase {       
+    export default class Main extends AbpBase {    
+        minLogo = require('@/assets/images/logo-min.jpg')   
+        maxLogo = require('@/assets/images/logo.jpg')
         shrink:boolean=false;
         collapsed:boolean=false;
         get userName(){
@@ -92,7 +100,7 @@
         get openedSubmenuArr(){
           return this.$store.state.app.openedSubmenuArr
         }
-        get menuList () {
+        get menuList () { 
           return this.$store.state.app.menuList;
         }
         get pageTagsList () {
@@ -115,6 +123,25 @@
         }
         get mesCount () {
           return this.$store.state.app.messageCount;
+        }
+
+        turnToPage (route) {           
+          let  name, params, query  = {}
+        if (typeof route === 'string') name = route
+        else {
+          name = route.name
+          params = route.params
+          query = route.query
+        }
+        if (name.indexOf('isTurnByHref_') > -1) {
+          window.open(name.split('_')[1])
+          return
+        }
+        this.$router.push({
+        name,
+        params,
+        query
+        })
         }
         init () {
           let pathArr = util.setCurrentPath(this, this.$route.name as string);

@@ -39,7 +39,7 @@
             :closable="item.name !== $config.homeName"
             :color="isCurrentTag(item) ? 'primary' : 'default'"
             @contextmenu.prevent.native="contextMenu(item, $event)"
-          >{{ showTitleInside(item) }}</Tag>
+          >{{itemInside(item) }}</Tag>
         </transition-group>
       </div>
     </div>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { showTitle, routeEqual } from '@/libs/util'
+import { itemTitle, routeEqual } from '@/lib/util'
 import beforeClose from '@/router/before-close'
 export default {
   name: 'TagsNav',
@@ -138,8 +138,8 @@ export default {
     handleClick (item) {
       this.$emit('input', item)
     },
-    showTitleInside (item) {
-      return showTitle(item, this)
+    itemTitleInside (item) {
+      return itemTitle(item, this)
     },
     isCurrentTag (item) {
       return routeEqual(this.currentRouteObj, item)

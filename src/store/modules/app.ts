@@ -127,7 +127,6 @@ class AppModule implements Module<AppState,any>{
         },
         initCachepage (state:AppState) {
             if (localStorage.cachePage) {
-                console.log("test=========="+JSON.parse(localStorage.cachePage));
                 state.cachePage = JSON.parse(localStorage.cachePage);
             }
         },

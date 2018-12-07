@@ -6,7 +6,9 @@ import 'famfamfam-flags/dist/sprite/famfamfam-flags.css';
 import './theme.less';
 import Ajax from './lib/ajax';
 import Util from './lib/util';
+import vuei18n from 'vue-i18n'
 import SignalRAspNetCoreHelper from './lib/SignalRAspNetCoreHelper';
+Vue.use(vuei18n)
 Vue.use(iView);
 import store from './store/index';
 Vue.config.productionTip = false;
